@@ -1,10 +1,13 @@
 package com.example.productorderservice.product;
 
 import io.restassured.RestAssured;
+import io.restassured.response.ExtractableResponse;
+import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 @SpringBootTest
@@ -19,13 +22,15 @@ class ProductApiTest {
         final AddProductRequest request = 상품등록요청_생성();
         productService.addProduct(request);
         // API 요청
-        RestAssured.given().log().all()
+        final ExtractableResponse<Response> response =  RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(request)
                 .when()
                 .post("/products")
                 .then()
                 .log().all().extract();
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
     }
 
     private static AddProductRequest 상품등록요청_생성() {
