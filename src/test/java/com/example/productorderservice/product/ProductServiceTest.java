@@ -10,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
+import static org.assertj.core.api.FactoryBasedNavigableListAssert.assertThat;
+
 @SpringBootTest
 class ProductApiTest {
 
